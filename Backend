@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+
+const foods = [
+    { _id: '1', name: 'Paneer Butter Masala', description: 'Delicious creamy paneer curry', price: 250, image: 'https://via.placeholder.com/200' },
+    { _id: '2', name: 'Masala Dosa', description: 'Crispy dosa with potato stuffing', price: 120, image: 'https://via.placeholder.com/200' },
+    { _id: '3', name: 'Gulab Jamun', description: 'Sweet dumplings soaked in sugar syrup', price: 80, image: 'https://via.placeholder.com/200' },
+];
+
+router.get('/foods', (req, res) => res.json(foods));
+
+module.exports = router;
