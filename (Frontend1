@@ -1,0 +1,54 @@
+// Import React library and necessary hooks
+import React, { useEffect, useState } from 'react';
+// Import axios to make API calls
+import axios from 'axios';
+
+// Create the FoodPage component
+const FoodPage = () => {
+    // Create a state to store food items (empty array initially)
+    const [foods, setFoods] = useState([]);
+
+    // useEffect will run when the page loads - it fetches food data from the backend
+    useEffect(() => {
+        // Call the backend API to get food data
+        axios.get('http://localhost:5000/api/foods')
+            .then(response => {
+                // Store the received data in state
+                setFoods(response.data);
+            })
+            .catch(error => {
+                // Log error if API call fails
+                console.error('Error fetching food items:', error);
+            });
+    }, []); // Empty dependency array means it runs once when component loads
+
+    // Return the UI
+    return (
+        <div style={styles.container}>
+            <h1 style={styles.header}>Delicious Food Items</h1>
+            <div style={styles.foodGrid}>
+                {/* Loop through each food item and display it */}
+                {foods.map((food) => (
+                    <div key={food._id} style={styles.foodCard}>
+                        <img src={food.image} alt={food.name} style={styles.foodImage} />
+                        <h3>{food.name}</h3>
+                        <p>{food.description}</p>
+                        <p><b>Price: ₹{food.price}</b></p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+// CSS styles (inline for simplicity)
+const styles = {
+    container: { padding: '20px' },
+    header: { textAlign: 'center', fontSize: '24px', marginBottom: '20px' },
+    foodGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' },
+    foodCard: { border: '1px solid #ddd', padding: '10px', borderRadius: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' },
+    foodImage: { width: '100%', height: '150px', objectFit: 'cover', borderRadius: '5px' }
+};
+
+// Export the component so it can be used in App.js
+export default FoodPage;
